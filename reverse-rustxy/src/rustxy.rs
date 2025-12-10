@@ -6,3 +6,7 @@
 #TODO: Rustxy must send responses to clients showing the IP address of the server Rustxy used as a reverse proxy.
 #TODO: Rustxy must mark a server as "unreachable" if it fails health checks a total of 5 times consecutively, and therefore should not send requests to that server for the next 10 minutes.
 */
+
+fn rustxy(){
+    println!("rustx");
+}
