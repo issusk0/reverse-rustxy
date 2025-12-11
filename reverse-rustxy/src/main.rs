@@ -1,6 +1,7 @@
+mod miku_core;
 mod checker;
 mod rustxy;
-
+mod server;
 fn main() {
-    println!("Hello, world!");
+    checker::is_healthy();
 }
