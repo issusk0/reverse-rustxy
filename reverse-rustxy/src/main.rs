@@ -1,7 +1,11 @@
 mod miku_core;
-mod checker;
-mod rustxy;
-mod server;
+
+use std::thread;
+use crate::miku_core::rustxy;
+
 fn main() {
-    checker::is_healthy();
+    let rustxy = thread::spawn(move || {
+        rustxy::rustxy();
+    });
+    rustxy.join().unwrap();
 }

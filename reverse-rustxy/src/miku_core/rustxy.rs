@@ -7,6 +7,12 @@
 #TODO: Rustxy must mark a server as "unreachable" if it fails health checks a total of 5 times consecutively, and therefore should not send requests to that server for the next 10 minutes.
 */
 
-fn rustxy(){
-    println!("rustx");
+use crate::miku_core::checker;
+use std::thread;
+pub fn rustxy(){
+    let checker_status = thread::spawn(|| {
+        checker::main_checker();
+    });
+
+    checker_status.join().unwrap();
 }
