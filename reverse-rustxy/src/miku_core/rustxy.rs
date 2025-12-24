@@ -6,13 +6,24 @@
 #TODO: Rustxy must send responses to clients showing the IP address of the server Rustxy used as a reverse proxy.
 #TODO: Rustxy must mark a server as "unreachable" if it fails health checks a total of 5 times consecutively, and therefore should not send requests to that server for the next 10 minutes.
 */
-
-use crate::miku_core::checker;
-use std::thread;
+use crate::miku_core::server::{server, handle_client};
+use std::{net::TcpListener, thread};
 pub fn rustxy(){
-    let checker_status = thread::spawn(|| {
-        checker::main_checker();
+    let connection = thread::spawn(||{
+        let listener: TcpListener = server();
+        for streams in listener.incoming() {
+            match streams {
+                Ok(streams) => {
+                    let conn = thread::spawn(||{
+                        let _state  = handle_client(streams);
+                    });
+                    conn.join().unwrap();
+                }
+                Err(_e) => {
+                    println!("Error while handle client");
+                }
+            }
+        }
     });
-
-    checker_status.join().unwrap();
+    connection.join().unwrap();
 }
