@@ -44,15 +44,10 @@ impl Config {
 }
 
 pub fn load_config() -> Config {
-    let mut config_path = std::env::current_exe().expect("No se pudo obtener la ruta del ejecutable");
-    config_path.pop(); // Quita el nombre del binario
-    config_path.push("config.toml"); // Apunta al archivo
+    // Esto lee el archivo durante la compilacion y lo mete en el binario como texto
+    let content = include_str!("../../config.toml"); 
 
-    let content = fs::read_to_string(&config_path)
-        .unwrap_or_else(|_| {
-            // Si no está junto al binario, intenta en el root (para desarrollo con cargo run)
-            fs::read_to_string("config.toml").expect("CONFIG NOT FOUND IN ANY LOCATION")
-        });
 
-    toml::from_str(&content).expect("FAILED TO PARSE CONFIG")
+    toml::from_str(content)
+        .expect("FAILED TO PARSE CONFIG EMBEDDED")
 }

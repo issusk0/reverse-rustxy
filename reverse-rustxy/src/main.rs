@@ -1,11 +1,13 @@
 mod miku_core;
 
 use std::thread;
-use crate::miku_core::rustxy;
+use crate::miku_core::rustxy::{self, rustxy};
 
 fn main() {
-    let rustxy = thread::spawn(move || {
-        rustxy::rustxy();
+    let proxy = thread::spawn(move||{
+        rustxy();
+
     });
-    rustxy.join().unwrap();
+
+    proxy.join();
 }
